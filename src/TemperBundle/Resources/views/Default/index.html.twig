@@ -21,7 +21,7 @@
             },
             yAxis: {
                 title: {
-                    text: 'On boarding step'
+                    text: 'On boarding step (%)'
                 },
                 min: 0,
                 max: 100,
@@ -34,13 +34,11 @@
             },
 
             xAxis: {
-                tickInterval: 1,
+                tickInterval:10,
                 labels: {
                     enabled: true,
-                    formatter: function () {
-                        return seriesData[this.value][0];
-                    },
-                }
+                },
+                categories:["week29"]
             },
 
             plotOptions: {

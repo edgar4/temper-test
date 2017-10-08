@@ -28,16 +28,27 @@ class TemperCohortService
 
     public function get($start, $end)
     {
+
+        $cohorts = $this->determineCohorts($start, $end);
+        $cohortData = array();
+
+        foreach ($cohorts as $cohort) {
+            $cohort = (object)$cohort;
+            $name = str_replace("2016", "week", $cohort->yw);
+            $cohortData[$name] = $this->getCohortData($cohort->created_at);
+
+        }
+        return $cohortData;
+
+
+    }
+
+    private function determineCohorts($start, $end)
+    {
         $doctrine = $this->container->get('doctrine');
         $em = $doctrine->getEntityManager();
-
-//        $cohorts = $doctrine->getRepository('TemperBundle:UserCohort')->findByRange($start, $end);
-//
-//        var_dump($cohorts);
-
         $sql = " 
-         SELECT yearweek(`created_at`, 1) yw,
-          COUNT(id) AS 'total_users',onboarding_perentage,count_applications,count_accepted_applications,created_at
+         SELECT yearweek(`created_at`, 1) yw,created_at
        FROM user_cohort 
        WHERE created_at BETWEEN '$start' AND '$end'
        GROUP BY yw
@@ -53,7 +64,22 @@ class TemperCohortService
 
         return false;
 
+    }
 
+    private function getCohortData($cohort)
+    {
+        $doctrine = $this->container->get('doctrine');
+        $em = $doctrine->getEntityManager();
+        $sql = " 
+        SELECT onboarding_perentage,count_applications,count_accepted_applications,created_at
+       FROM user_cohort 
+       WHERE created_at = '$cohort'";
+
+        $stmt = $em->getConnection()->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetchAll();
+
+        return $result;
     }
 
 
