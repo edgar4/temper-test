@@ -1,0 +1,61 @@
+{% trans_default_domain 'FOSUserBundle' %}
+{% set notice= app.session.get('show_notice') %}
+{% if notice %}
+    <div class="alert alert-warning">
+        <p>You have safely saved you details.</p>
+        <p>If you have an account you can login below</p>
+        <p>or click <a href="/login">here</a> to sign up</p>
+    </div>
+{% endif %}
+<p class="text-center m-t-md">Create an account</p>
+
+{{ form_start(registerForm, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'm-t-md'}}) }}
+
+<div class="form-group col-sm-12">
+    {{ form_widget(registerForm.name, {'attr': {'class': 'form-control', 'placeholder': 'Full name', 'required': 'required'}}) }}
+    {{ form_errors(registerForm.name) }}
+</div>
+
+<div class="form-group">
+    <div class="col-sm-6">
+        {{ form_widget(registerForm.phone, {'attr': {'class': 'form-control', 'placeholder': 'Enter Phone', 'required': 'required'}}) }}
+        {{ form_errors(registerForm.phone) }}
+    </div>
+    <div class="col-sm-6">
+        {{ form_widget(registerForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Email', 'required': 'required'}}) }}
+        {{ form_errors(registerForm.email) }}
+    </div>
+
+</div>
+<br/> &nbsp;<br/>
+
+<div class="form-group col-sm-12">
+    {{ form_widget(registerForm.username, {'attr': {'class': 'form-control', 'placeholder': 'Enter A Username', 'required': 'required'}}) }}
+    {{ form_errors(registerForm.username) }}
+</div>
+<div class="form-group">
+    <div class="col-sm-6">
+        {{ form_widget(registerForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': ' Password', 'required': 'required'}}) }}
+
+        {{ form_errors(registerForm.plainPassword.first) }}
+    </div>
+    <div class="col-sm-6">
+        {{ form_widget(registerForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Repeat Password', 'required': 'required'}}) }}
+
+        {{ form_errors(registerForm.plainPassword.second) }}
+    </div>
+
+
+</div>
+<br/> &nbsp;<br/>
+<button type="submit" class="btn btn-primary btn-elimisha btn-block m-t-xs">
+    {{ 'registration.submit'|trans }}
+</button>
+<small class="text-center" style="text-align: center"> By registering you agree to  the Elimisha terms and conditions
+</small>
+<br/> <br/>
+
+<p class="text-center m-t-xs text-sm">Already have an account?</p>
+<a data-toggle="modal" data-target="#loginModal" data-dismiss="modal" class="btn btn-default btn-block m-t-xs">Login</a>
+<br/> &nbsp;<br/>
+{{ form_end(registerForm) }}
