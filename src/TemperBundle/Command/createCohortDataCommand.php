@@ -12,12 +12,13 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Finder\Finder;
+use TemperBundle\Entity\UserCohort;
 
 class createCohortDataCommand extends ContainerAwareCommand
 {
 
     private $csvParsingOptions = array(
-        'finder_in' => 'app/Resources/data',
+        'finder_in' => 'src/TemperBundle/Resources/data',
         'finder_name' => 'export.csv',
         'ignoreFirstLine' => true
     );
@@ -36,7 +37,26 @@ class createCohortDataCommand extends ContainerAwareCommand
         $em = $doctrine->getEntityManager();
         $csv = $this->parseCSV();
 
-        var_dump($csv);
+        $cohorts = $doctrine->getRepository('TemperBundle:UserCohort')->findAll();
+
+        if (count($cohorts) > 1) {
+            $output->writeln('<info>Data has already been uploaded </info>');
+
+            exit;
+        }
+
+        foreach ($csv as $data) {
+            $cohort = new  UserCohort();
+            $cohort->setUserId($data[0]);
+            $cohort->setCreatedAt(new \DateTime($data[1]));
+            $cohort->setOnboardingPerentage($data[2]);
+            $cohort->setCountApplications($data[3]);
+            $cohort->setCountAcceptedApplications($data[4]);
+            $em->persist($cohort);
+            $em->flush();
+
+
+        }
 
 
         $output->writeln('<info>Data uploaded successfully</info>');
@@ -56,9 +76,7 @@ class createCohortDataCommand extends ContainerAwareCommand
             ->in($this->csvParsingOptions['finder_in'])
             ->name($this->csvParsingOptions['finder_name']);
 
-        var_dump($finder);
 
-        exit;
         foreach ($finder as $file) {
             $csv = $file;
         }
