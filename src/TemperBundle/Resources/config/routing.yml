@@ -1,3 +1,6 @@
 temper_homepage:
     path:     /
     defaults: { _controller: TemperBundle:Default:index }
+json:
+   path:     /json
+   defaults: { _controller: TemperBundle:Default:json }
