@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Chart</title>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -10,6 +11,68 @@
 
 
 <div id="container"></div>
+<script type="text/javascript">
+    $(function () {
+        var seriesData = {{ chart|raw }};
+        Highcharts.chart('container', {
+
+            title: {
+                text: 'Temper User Cohot'
+            },
+            yAxis: {
+                title: {
+                    text: 'On boarding step'
+                },
+                min: 0,
+                max: 100,
+                tickInterval: 10,
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
+
+            xAxis: {
+                tickInterval: 1,
+                labels: {
+                    enabled: true,
+                    formatter: function () {
+                        return seriesData[this.value][0];
+                    },
+                }
+            },
+
+            plotOptions: {
+                series: {
+                    label: {
+                        connectorAllowed: true
+                    },
+                    pointStart: 0
+                }
+            },
+
+            series: seriesData,
+
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
+
+        });
+    })
+    ;
+</script>
 
 </body>
 </html>
