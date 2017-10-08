@@ -34,7 +34,7 @@ class TemperCohortService
 
         foreach ($cohorts as $cohort) {
             $cohort = (object)$cohort;
-            $name = str_replace("2016", "week", $cohort->yw);
+            $name = str_replace("2016", "week", $cohort->yw) . '(' . $cohort->created_at . ')';
             $cohortData[$name] = $this->getCohortData($cohort->created_at);
 
         }
@@ -71,9 +71,9 @@ class TemperCohortService
         $doctrine = $this->container->get('doctrine');
         $em = $doctrine->getEntityManager();
         $sql = " 
-        SELECT onboarding_perentage,count_applications,count_accepted_applications,created_at
+        SELECT DISTINCT onboarding_perentage,count_applications,count_accepted_applications,created_at
        FROM user_cohort 
-       WHERE created_at = '$cohort'";
+       WHERE created_at = '$cohort' GROUP BY id";
 
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
