@@ -46,8 +46,10 @@ class TemperCohortService
         $stmt = $em->getConnection()->prepare($sql);
         $stmt->execute();
         $result = $stmt->fetchAll();
-        var_dump($result);
-        exit;
+
+        if ($result) {
+            return $result;
+        }
 
 
     }
