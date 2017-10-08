@@ -4,7 +4,7 @@ temper-test
 
 ``` bash
 # clone project git clone https://github.com/edgar4/temper-test.git
-# install dependencies
+#  cd  in to project dir and install dependencies
  composer install
 
 # make ddatabase called temper_test ( you can call it what you want  just remember to change the params in config dir)
