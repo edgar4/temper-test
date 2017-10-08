@@ -1,4 +1,4 @@
 services:
-#    temper.example:
-#        class: TemperBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
+  temper.user.cohort:
+            class: TemperBundle\Service\TemperCohortService
+            arguments: ["@doctrine.orm.entity_manager","@router","@service_container"]

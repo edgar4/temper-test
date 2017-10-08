@@ -8,6 +8,11 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('TemperBundle:Default:index.html.twig');
+        $temperCohorts = $this->get('temper.user.cohort');
+        return $this->render('TemperBundle:Default:index.html.twig', array(
+            'cohorts' => $temperCohorts->get()
+        ));
     }
+
+
 }
