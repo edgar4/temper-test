@@ -14,6 +14,8 @@ security:
             pattern: ^/
             form_login:
                 provider: fos_userbundle
+                always_use_default_target_path: false
+                default_target_path : /dashboard
                 #csrf_provider: security.csrf.token_manager
             logout:       true
             anonymous:    true
@@ -21,4 +23,5 @@ security:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, role: ROLE_ADMIN }
         - { path: ^/admin/, role: ROLE_ADMIN }
