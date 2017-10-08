@@ -1,4 +1,15 @@
 temper-test
 ===========
+## Build Setup
 
-A Symfony project created on October 8, 2017, 1:28 pm.
+``` bash
+# clone project git clone https://github.com/edgar4/temper-test.git
+# install dependencies
+ composer install
+
+# make ddatabase called temper_test ( you can call it what you want  just remember to change the params in config dir)
+ php bin/console d:s:u -f   create and migrate database
+ php bin/console temper:prepare:data     prepares the csv data and loads it into a  the database
+ php bin/console server:run   runs the development server
+
+```
